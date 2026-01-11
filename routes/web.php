@@ -48,5 +48,7 @@ Route::get('/admin/profile', [AdminController::class, 'adminProfile'])
     ->middleware(['auth', AdminMiddleware::class])
     ->name('admin.profile');
 
+Route::post('/admin/profile/store', [AdminController::class, 'adminProfileStore'])->name('admin.profile.store');
+
 // Admin login route (GET and POST)
 Route::match(['get', 'post'], '/admin/login', [AdminController::class, 'adminLogin'])->name('admin.login');
