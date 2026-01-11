@@ -28,7 +28,25 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+
+        // Redirect based on role stored in `roles` column
+        if ($user && isset($user->roles)) {
+            switch (strtolower($user->roles)) {
+                case 'admin':
+                    $intended = route('admin.dashboard', [], false);
+                    break;
+                case 'agent':
+                    $intended = route('agent.dashboard', [], false);
+                    break;
+                default:
+                    $intended = route('dashboard', [], false);
+            }
+
+            return redirect()->intended($intended);
+        }
+
+        return redirect()->intended(route('dashboard', [], false));
     }
 
     /**
@@ -42,6 +60,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

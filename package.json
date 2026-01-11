@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build && node scripts/generate-index.js",
-        "dev": "vite"
+        "dev": "vite",
+        "dev:all": "concurrently \"php artisan serve\" \"npm run dev\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
